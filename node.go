@@ -6,6 +6,7 @@ type Node struct {
 	graph *Graph
 	id    string
 	seq   int
+	field string
 }
 
 // Attr sets label=value and return the Node
@@ -32,4 +33,9 @@ func (n Node) Edge(toNode Node, labels ...string) Edge {
 // EdgesTo returns all existing edges between this Node and the argument Node.
 func (n Node) EdgesTo(toNode Node) []Edge {
 	return n.graph.FindEdges(n, toNode)
+}
+
+func (n Node) Field(field string) Node {
+	n.field = field
+	return n
 }
