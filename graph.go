@@ -207,8 +207,20 @@ func (g Graph) IndentedWrite(w *IndentWriter) {
 		}
 		for _, each := range g.sortedEdgesFromKeys() {
 			all := g.edgesFrom[each]
+			var n1, n2 string
 			for _, each := range all {
-				fmt.Fprintf(w, "n%d%sn%d", each.from.seq, denoteEdge, each.to.seq)
+				if each.from.field == "" {
+					n1 = fmt.Sprintf("n%d", each.from.seq)
+				} else {
+					n1 = fmt.Sprintf("n%d:%s", each.from.seq, each.from.field)
+				}
+				if each.to.field == "" {
+					n2 = fmt.Sprintf("n%d", each.to.seq)
+				} else {
+					n2 = fmt.Sprintf("n%d:%s", each.to.seq, each.to.field)
+				}
+
+				fmt.Fprintf(w, "%s%s%s", n1, denoteEdge, n2)
 				appendSortedMap(each.attributes, true, w)
 				fmt.Fprint(w, ";")
 				w.NewLine()
